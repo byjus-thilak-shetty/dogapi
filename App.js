@@ -14,25 +14,17 @@ class App extends Component {
         }
     }
 
-    componentDidMount(){
-        fetch("https://api.thecatapi.com/v1/images/search?limit=5&page=10&order=Desc")
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-            this.setState({dogs:data})
-            //console.log(dogs);
-        })
+    async componentDidMount(){
+        const url="https://api.thedogapi.com/v1/images/search?api_key=af6f2d6f-7cd4-421e-8fd9-83188dd6e69b";
+        const response= await fetch(url);
+        const data= await response.json();
+        console.log(data);
+        this.setState({dogs: data[0].url, loading:false, dogBreed:data[0].breeds[0]});
     }
 
     render() { 
         return (
         <div>
-            <h1 style={{textAlign: 'center'}}>
-                {this.dogs[0]}
-            </h1>
-            {/* <ul>
-              {this.state.dogs.map(dog=><li>{dog}</li>)}
-            </ul> */}
             <DogList dogs={this.state.dogs}/>
         </div>
         );
